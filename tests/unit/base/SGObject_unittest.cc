@@ -20,10 +20,11 @@
 #include <shogun/io/SerializableAsciiFile.h>
 #include <shogun/statistics/QuadraticTimeMMD.h>
 #include <shogun/neuralnets/NeuralNetwork.h>
-#include <../tests/unit/base/MockObject.h>
 #include <shogun/base/some.h>
 #include <pthread.h>
 #include <gtest/gtest.h>
+
+#include "MockObject.h"
 
 using namespace shogun;
 
@@ -383,4 +384,52 @@ TEST(SGObject, tags_has)
 	EXPECT_EQ(obj->has("foo"), false);
 	EXPECT_EQ(obj->has<int32_t>("foo"), false);
 	EXPECT_EQ(obj->has(Tag<int32_t>("foo")), false);
+}
+
+TEST(SGObject, tags_and_member_getters)
+{
+    auto obj = some<CMockObject>();
+
+    EXPECT_TRUE(obj->has("int"));
+    EXPECT_TRUE(obj->has("float"));
+    EXPECT_TRUE(obj->has("vector"));
+
+    int32_t integer_value = 78;
+    obj->set_integer(integer_value);
+    EXPECT_EQ(obj->get<int32_t>("int"), integer_value);
+
+    float64_t float_value = 3.14;
+    obj->set_float(float_value);
+    EXPECT_EQ(obj->get<float64_t>("float"), float_value);
+
+    SGVector<float64_t> vector_value(3);
+    vector_value[0] = 1.1;
+    vector_value[1] = 2.2;
+    vector_value[2] = 3.3;
+    obj->set_vector(vector_value);
+    EXPECT_TRUE(obj->get<SGVector<float64_t>>("vector").equals(vector_value));
+}
+
+TEST(SGObject, tags_and_member_setters)
+{
+    auto obj = some<CMockObject>();
+
+    EXPECT_TRUE(obj->has("int"));
+    EXPECT_TRUE(obj->has("float"));
+    EXPECT_TRUE(obj->has("vector"));
+
+    int32_t integer_value = 78;
+    obj->set("int", integer_value);
+    EXPECT_EQ(obj->get_integer(), integer_value);
+
+    float64_t float_value = 3.14;
+    obj->set("float", float_value);
+    EXPECT_EQ(obj->get_float(), float_value);
+
+    SGVector<float64_t> vector_value(3);
+    vector_value[0] = 1.1;
+    vector_value[1] = 2.2;
+    vector_value[2] = 3.3;
+    obj->set("vector", vector_value);
+    EXPECT_TRUE(obj->get_vector().equals(vector_value));
 }

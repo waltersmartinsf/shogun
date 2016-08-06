@@ -216,6 +216,12 @@ public:
 
 };
 
+template <typename S>
+bool equals(SGSparseVector<S>* lhs, SGSparseVector<S>* rhs)
+{
+    throw std::logic_error("Equals not supported by SGSparseVector");
+}
+
 }
 
 #endif // __SGSPARSEVECTOR_H__

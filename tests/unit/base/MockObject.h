@@ -18,16 +18,47 @@ public:
 
     const char* get_name() const { return "MockObject"; }
 
+    int32_t get_integer() const
+    {
+        return m_integer;
+    }
+
+    void set_integer(int32_t value)
+    {
+        m_integer = value;
+    }
+
+    float64_t get_float() const
+    {
+        return m_float;
+    }
+
+    void set_float(float64_t value)
+    {
+        m_float = value;
+    }
+
+    SGVector<float64_t> get_vector() const
+    {
+        return m_vector;
+    }
+
+    void set_vector(SGVector<float64_t> value)
+    {
+        m_vector = value;
+    }
+
 protected:
     void init_params()
     {
-        float64_t decimal = 0.0;
-        register_param("vector", SGVector<float64_t>());
-        register_param("int", m_integer);
-        register_param("float", decimal);
+        SG_ADD(&m_vector, "vector", "", MS_NOT_AVAILABLE);
+        SG_ADD(&m_integer, "int", "", MS_NOT_AVAILABLE);
+        SG_ADD(&m_float, "float", "", MS_NOT_AVAILABLE);
     }
 
 private:
-    int32_t m_integer = 0;
+    int32_t m_integer;
+    float64_t m_float;
+    SGVector<float64_t> m_vector;
 };
 }

@@ -795,3 +795,18 @@ bool CSGObject::has_with_base_tag(const BaseTag& _tag) const
 {
 	return self->has(_tag);
 }
+
+namespace shogun
+{
+	template <>
+	bool equals(CSGObject* lhs, CSGObject* rhs)
+	{
+		return lhs->equals(rhs);
+	}
+
+	template <>
+	bool equals(CSGObject** lhs, CSGObject** rhs)
+	{
+		return (*lhs)->equals(*rhs);
+	}
+}
